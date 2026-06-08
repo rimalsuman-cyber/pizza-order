@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Friday Dinner Order</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="top-panel">
+        <div class="brand-row">
+          <div class="brand-mark" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div>
+            <p class="eyebrow">Friday evening</p>
+            <h1>Dinner order</h1>
+          </div>
+        </div>
+        <button class="icon-button" id="resetButton" type="button" aria-label="Reset all orders" title="Reset all orders">
+          <span aria-hidden="true">R</span>
+        </button>
+      </section>
+
+      <section class="status-strip" aria-label="Order progress">
+        <div>
+          <strong id="orderedCount">0</strong>
+          <span>ordered</span>
+        </div>
+        <div>
+          <strong id="totalParticipants">11</strong>
+          <span>participants</span>
+        </div>
+        <div>
+          <strong id="totalItems">0</strong>
+          <span>items</span>
+        </div>
+      </section>
+
+      <div class="participant-scroller" aria-label="Participant chooser">
+        <button class="scroll-arrow" id="scrollParticipantsLeft" type="button" aria-label="Scroll participants left" title="Scroll participants left">
+          <span aria-hidden="true">&lt;</span>
+        </button>
+        <nav class="participant-tabs" id="participantTabs" aria-label="Participants"></nav>
+        <button class="scroll-arrow" id="scrollParticipantsRight" type="button" aria-label="Scroll participants right" title="Scroll participants right">
+          <span aria-hidden="true">&gt;</span>
+        </button>
+      </div>
+
+      <section class="order-card" aria-live="polite">
+        <div class="person-header">
+          <div>
+            <p class="eyebrow">Ordering for</p>
+            <h2 id="activeName">Suman</h2>
+          </div>
+          <span class="pill" id="activeStatus">Not ordered</span>
+        </div>
+
+        <div class="control-block">
+          <label for="itemSelect">Dinner item</label>
+          <select id="itemSelect"></select>
+        </div>
+
+        <div class="control-grid">
+          <div class="control-block">
+            <label for="quantityInput">Quantity</label>
+            <div class="stepper">
+              <button type="button" id="decreaseQty" aria-label="Decrease quantity">-</button>
+              <input id="quantityInput" type="number" min="0" max="9" value="0" inputmode="numeric">
+              <button type="button" id="increaseQty" aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+
+          <div class="control-block">
+            <label for="drinkSelect">Drink</label>
+            <select id="drinkSelect"></select>
+          </div>
+        </div>
+
+        <div class="control-block">
+          <label for="sauceSelect">Sauce</label>
+          <select id="sauceSelect"></select>
+        </div>
+
+        <div class="control-block">
+          <label for="noteInput">Notes</label>
+          <textarea id="noteInput" rows="3" placeholder="No onions, extra spicy, separate box..."></textarea>
+        </div>
+
+        <div class="quick-items" id="quickItems" aria-label="Quick item choices"></div>
+      </section>
+
+      <section class="summary-panel">
+        <div class="section-heading">
+          <h2>Order summary</h2>
+          <button class="text-button" id="copyButton" type="button">Copy list</button>
+        </div>
+        <div class="summary-list" id="summaryList"></div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
