@@ -22,6 +22,21 @@ const dinnerItems = [
   "Pullet pepito"
 ];
 
+const restaurants = [
+  "No restaurant",
+  "Futurefoods Tel.: +41417503737",
+  "Allmend Pizza Kebab Tel.: +41566119944",
+  "PePe FOOD Tel.: +41787051973",
+  "Tom's Diner Restaurant Tel.: +41565257503"
+];
+
+const restaurantEmails = {
+  "Futurefoods Tel.: +41417503737": "Kontact@futurefoods.ch",
+  "Allmend Pizza Kebab Tel.: +41566119944": "Kontact@allmendpizzakebab.ch",
+  "PePe FOOD Tel.: +41787051973": "Kontact@pepefood.ch",
+  "Tom's Diner Restaurant Tel.: +41565257503": "Kontact@tomsdiner.ch"
+};
+
 const drinks = [
   "No drink",
   "Water",
@@ -42,7 +57,10 @@ const sauces = [
 ];
 
 const orders = Object.fromEntries(
-  participants.map((name) => [name, { item: "No order", quantity: 0, drink: "No drink", sauce: "No sauce", note: "" }])
+  participants.map((name) => [
+    name,
+    { item: "No order", restaurant: "No restaurant", quantity: 0, drink: "No drink", sauce: "No sauce", note: "" }
+  ])
 );
 
 let activeParticipant = participants[0];
@@ -51,6 +69,10 @@ const tabsEl = document.getElementById("participantTabs");
 const activeNameEl = document.getElementById("activeName");
 const activeStatusEl = document.getElementById("activeStatus");
 const itemSelect = document.getElementById("itemSelect");
+const restaurantSelect = document.getElementById("restaurantSelect");
+const callButton = document.getElementById("callButton");
+const emailButton = document.getElementById("emailButton");
+const smsButton = document.getElementById("smsButton");
 const drinkSelect = document.getElementById("drinkSelect");
 const sauceSelect = document.getElementById("sauceSelect");
 const quantityInput = document.getElementById("quantityInput");
@@ -80,6 +102,7 @@ function isOrdered(order) {
 function formatOrderDetails(order) {
   return [
     order.item,
+    order.restaurant && order.restaurant !== "No restaurant" ? order.restaurant : "",
     order.drink !== "No drink" ? order.drink : "",
     order.sauce && order.sauce !== "No sauce" ? order.sauce : "",
     order.note.trim()
@@ -147,6 +170,7 @@ function renderQuickItems() {
 function saveActiveOrder() {
   orders[activeParticipant] = {
     item: itemSelect.value,
+    restaurant: restaurantSelect.value,
     quantity: Math.max(0, Math.min(9, Number(quantityInput.value) || 0)),
     drink: drinkSelect.value,
     sauce: sauceSelect.value,
@@ -158,6 +182,7 @@ function loadActiveOrder() {
   const order = orders[activeParticipant];
   activeNameEl.textContent = activeParticipant;
   itemSelect.value = order.item;
+  restaurantSelect.value = order.restaurant || "No restaurant";
   drinkSelect.value = order.drink;
   sauceSelect.value = order.sauce || "No sauce";
   quantityInput.value = String(order.quantity);
@@ -166,6 +191,63 @@ function loadActiveOrder() {
   const ordered = isOrdered(order);
   activeStatusEl.textContent = ordered ? "Ordered" : "Not ordered";
   activeStatusEl.classList.toggle("done", ordered);
+  updateRestaurantActions();
+}
+
+function getRestaurantPhone(restaurant) {
+  const match = restaurant.match(/Tel\.:\s*([+\d\s]+)/);
+  return match ? match[1].replace(/\s/g, "") : "";
+}
+
+function updateRestaurantActions() {
+  const restaurant = restaurantSelect.value;
+  const phone = getRestaurantPhone(restaurantSelect.value);
+  callButton.hidden = !phone;
+  smsButton.hidden = !phone;
+  if (!phone) {
+    callButton.removeAttribute("href");
+    callButton.removeAttribute("aria-label");
+    smsButton.removeAttribute("href");
+    smsButton.removeAttribute("aria-label");
+  } else {
+    callButton.href = `tel:${phone}`;
+    callButton.setAttribute("aria-label", `Call ${restaurant}`);
+    smsButton.href = `sms:${phone}`;
+    smsButton.setAttribute("aria-label", `SMS ${restaurant}`);
+  }
+
+  const email = restaurantEmails[restaurant] || "";
+  emailButton.hidden = restaurant === "No restaurant";
+  emailButton.classList.toggle("disabled", !email);
+  if (!email) {
+    emailButton.removeAttribute("href");
+    emailButton.setAttribute("aria-disabled", "true");
+    emailButton.setAttribute("title", "Email address will be added later");
+    return;
+  }
+
+  const subject = encodeURIComponent("Dinner order");
+  const body = encodeURIComponent(getEmailBody());
+  emailButton.href = `mailto:${email}?subject=${subject}&body=${body}`;
+  emailButton.removeAttribute("aria-disabled");
+  emailButton.setAttribute("aria-label", `Email ${restaurant}`);
+  emailButton.removeAttribute("title");
+}
+
+function getEmailBody() {
+  return [
+    "Hallo grüezi,",
+    "",
+    "Bitte machen Sie alles parat bis 17:55 dass ich komme zu holen.",
+    "",
+    getOrderText(),
+    "",
+    "Danke",
+    "Grüsse",
+    "Suman",
+    "OerlikonMetco AG",
+    "0764678511"
+  ].join("\n");
 }
 
 function renderSummary() {
@@ -213,19 +295,21 @@ function getOrderText() {
     .filter(([, order]) => isOrdered(order))
     .map(([name, order]) => {
       const drink = order.drink !== "No drink" ? `, ${order.drink}` : "";
+      const restaurant = order.restaurant && order.restaurant !== "No restaurant" ? `, ${order.restaurant}` : "";
       const sauce = order.sauce && order.sauce !== "No sauce" ? `, ${order.sauce}` : "";
       const noteText = order.note.trim();
       const note = noteText ? ` (${noteText})` : "";
-      return `${name}: ${order.quantity} x ${order.item}${drink}${sauce}${note}`;
+      return `${name}: ${order.quantity} x ${order.item}${restaurant}${drink}${sauce}${note}`;
     });
   return lines.length ? lines.join("\n") : "No dinner choices yet.";
 }
 
 fillSelect(itemSelect, dinnerItems);
+fillSelect(restaurantSelect, restaurants);
 fillSelect(drinkSelect, drinks);
 fillSelect(sauceSelect, sauces);
 
-[itemSelect, drinkSelect, sauceSelect, quantityInput, noteInput].forEach((input) => {
+[itemSelect, restaurantSelect, drinkSelect, sauceSelect, quantityInput, noteInput].forEach((input) => {
   input.addEventListener("input", () => {
     saveActiveOrder();
     render();
@@ -252,7 +336,14 @@ document.getElementById("increaseQty").addEventListener("click", () => {
 
 document.getElementById("resetButton").addEventListener("click", () => {
   participants.forEach((name) => {
-    orders[name] = { item: "No order", quantity: 0, drink: "No drink", sauce: "No sauce", note: "" };
+    orders[name] = {
+      item: "No order",
+      restaurant: "No restaurant",
+      quantity: 0,
+      drink: "No drink",
+      sauce: "No sauce",
+      note: ""
+    };
   });
   render();
 });

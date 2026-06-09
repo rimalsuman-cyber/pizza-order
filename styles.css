@@ -40,6 +40,8 @@ textarea {
 }
 
 .top-panel {
+  position: relative;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -353,6 +355,35 @@ textarea {
   color: #fff;
   background: var(--basil);
   font-weight: 700;
+}
+
+.restaurant-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.restaurant-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 8px;
+  color: #fff;
+  background: var(--basil);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.restaurant-button.disabled {
+  opacity: 0.58;
+  cursor: not-allowed;
+}
+
+.restaurant-button[hidden] {
+  display: none;
 }
 
 .summary-list {
