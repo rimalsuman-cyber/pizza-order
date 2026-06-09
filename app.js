@@ -102,7 +102,6 @@ function isOrdered(order) {
 function formatOrderDetails(order) {
   return [
     order.item,
-    order.restaurant && order.restaurant !== "No restaurant" ? order.restaurant : "",
     order.drink !== "No drink" ? order.drink : "",
     order.sauce && order.sauce !== "No sauce" ? order.sauce : "",
     order.note.trim()
@@ -295,11 +294,10 @@ function getOrderText() {
     .filter(([, order]) => isOrdered(order))
     .map(([name, order]) => {
       const drink = order.drink !== "No drink" ? `, ${order.drink}` : "";
-      const restaurant = order.restaurant && order.restaurant !== "No restaurant" ? `, ${order.restaurant}` : "";
       const sauce = order.sauce && order.sauce !== "No sauce" ? `, ${order.sauce}` : "";
       const noteText = order.note.trim();
       const note = noteText ? ` (${noteText})` : "";
-      return `${name}: ${order.quantity} x ${order.item}${restaurant}${drink}${sauce}${note}`;
+      return `${name}: ${order.quantity} x ${order.item}${drink}${sauce}${note}`;
     });
   return lines.length ? lines.join("\n") : "No dinner choices yet.";
 }
