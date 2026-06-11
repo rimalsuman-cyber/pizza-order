@@ -12,6 +12,26 @@ const participants = [
   "Nesrin"
 ];
 
+const participantProfiles = {
+  Suman: {
+    nationality: "Nepal",
+    flag: "🇳🇵",
+    flagImage: "https://flagsapi.com/NP/flat/64.png",
+    photo: "https://raw.githubusercontent.com/rimalsuman-cyber/pizza-order/main/sumanrimal50X50.jpg",
+    colors: ["#c6422f", "#2f5fbc"]
+  },
+  Luca: { nationality: "Italy", flag: "🇮🇹", flagImage: "https://flagsapi.com/IT/flat/64.png", colors: ["#2f7657", "#c6422f"] },
+  Celik: { nationality: "Turkey", flag: "🇹🇷", flagImage: "https://flagsapi.com/TR/flat/64.png", colors: ["#c6422f", "#8f1d1d"] },
+  Barbara: { nationality: "Italy", flag: "🇮🇹", flagImage: "https://flagsapi.com/IT/flat/64.png", colors: ["#2f7657", "#c6422f"] },
+  Violca: { nationality: "Albania", flag: "🇦🇱", flagImage: "https://flagsapi.com/AL/flat/64.png", colors: ["#c6422f", "#2d3134"] },
+  Cigdem: { nationality: "Turkey", flag: "🇹🇷", flagImage: "https://flagsapi.com/TR/flat/64.png", colors: ["#c6422f", "#8f1d1d"] },
+  Severin: { nationality: "Switzerland", flag: "🇨🇭", flagImage: "https://flagsapi.com/CH/flat/64.png", colors: ["#c6422f", "#ffffff"] },
+  Torsten: { nationality: "Germany", flag: "🇩🇪", flagImage: "https://flagsapi.com/DE/flat/64.png", colors: ["#2d3134", "#e5a935"] },
+  Miguel: { nationality: "Serbia", flag: "🇷🇸", flagImage: "https://flagsapi.com/RS/flat/64.png", colors: ["#c6422f", "#2f5fbc"] },
+  Umit: { nationality: "Turkey", flag: "🇹🇷", flagImage: "https://flagsapi.com/TR/flat/64.png", colors: ["#c6422f", "#8f1d1d"] },
+  Nesrin: { nationality: "Turkey", flag: "🇹🇷", flagImage: "https://flagsapi.com/TR/flat/64.png", colors: ["#c6422f", "#8f1d1d"] }
+};
+
 const dinnerItems = [
   "No order",
   "Margherita pizza",
@@ -59,7 +79,16 @@ const sauces = [
 const orders = Object.fromEntries(
   participants.map((name) => [
     name,
-    { item: "No order", restaurant: "No restaurant", quantity: 0, drink: "No drink", sauce: "No sauce", note: "" }
+    {
+      item: "No order",
+      restaurant: "No restaurant",
+      quantity: 0,
+      drink: "No drink",
+      sauce: "No sauce",
+      note: "",
+      time: "",
+      paid: false
+    }
   ])
 );
 
@@ -67,6 +96,9 @@ let activeParticipant = participants[0];
 
 const tabsEl = document.getElementById("participantTabs");
 const activeNameEl = document.getElementById("activeName");
+const activePhotoEl = document.getElementById("activePhoto");
+const activeFlagEl = document.getElementById("activeFlag");
+const activeNationalityEl = document.getElementById("activeNationality");
 const activeStatusEl = document.getElementById("activeStatus");
 const itemSelect = document.getElementById("itemSelect");
 const restaurantSelect = document.getElementById("restaurantSelect");
@@ -76,6 +108,8 @@ const smsButton = document.getElementById("smsButton");
 const drinkSelect = document.getElementById("drinkSelect");
 const sauceSelect = document.getElementById("sauceSelect");
 const quantityInput = document.getElementById("quantityInput");
+const timeInput = document.getElementById("timeInput");
+const paidInput = document.getElementById("paidInput");
 const noteInput = document.getElementById("noteInput");
 const quickItemsEl = document.getElementById("quickItems");
 const summaryListEl = document.getElementById("summaryList");
@@ -99,11 +133,56 @@ function isOrdered(order) {
   return order.quantity > 0 && order.item !== "No order";
 }
 
+function getProfilePhoto(name) {
+  const profile = participantProfiles[name] || { colors: ["#756b62", "#f3eee8"] };
+  if (profile.photo) {
+    return profile.photo;
+  }
+  const initials = name.slice(0, 2).toUpperCase();
+  const [primary, secondary] = profile.colors;
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+      <defs>
+        <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0" stop-color="${primary}"/>
+          <stop offset="1" stop-color="${secondary}"/>
+        </linearGradient>
+      </defs>
+      <rect width="80" height="80" fill="url(#bg)"/>
+      <circle cx="40" cy="30" r="15" fill="#fffaf3" opacity="0.92"/>
+      <path d="M16 72c4-18 16-28 24-28s20 10 24 28" fill="#fffaf3" opacity="0.92"/>
+      <text x="40" y="70" text-anchor="middle" font-size="18" font-family="Arial, Helvetica, sans-serif" font-weight="700" fill="#221d18">${initials}</text>
+    </svg>
+  `;
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+}
+
+function renderActiveProfile() {
+  const profile = participantProfiles[activeParticipant] || {
+    nationality: "Unknown",
+    flag: "🏳️",
+    colors: ["#756b62", "#f3eee8"]
+  };
+  activePhotoEl.src = getProfilePhoto(activeParticipant);
+  activePhotoEl.alt = `${activeParticipant} photo`;
+  activeFlagEl.innerHTML = "";
+  if (profile.flagImage) {
+    const flagImg = document.createElement("img");
+    flagImg.src = profile.flagImage;
+    flagImg.alt = `${profile.nationality} flag`;
+    activeFlagEl.appendChild(flagImg);
+  } else {
+    activeFlagEl.textContent = profile.flag;
+  }
+  activeNationalityEl.textContent = profile.nationality;
+}
+
 function formatOrderDetails(order) {
   return [
     order.item,
     order.drink !== "No drink" ? order.drink : "",
     order.sauce && order.sauce !== "No sauce" ? order.sauce : "",
+    order.time ? `Time ${order.time}` : "",
     order.note.trim()
   ].filter(Boolean).join(" · ");
 }
@@ -173,22 +252,27 @@ function saveActiveOrder() {
     quantity: Math.max(0, Math.min(9, Number(quantityInput.value) || 0)),
     drink: drinkSelect.value,
     sauce: sauceSelect.value,
-    note: noteInput.value
+    note: noteInput.value,
+    time: timeInput.value,
+    paid: paidInput.checked
   };
 }
 
 function loadActiveOrder() {
   const order = orders[activeParticipant];
   activeNameEl.textContent = activeParticipant;
+  renderActiveProfile();
   itemSelect.value = order.item;
   restaurantSelect.value = order.restaurant || "No restaurant";
   drinkSelect.value = order.drink;
   sauceSelect.value = order.sauce || "No sauce";
   quantityInput.value = String(order.quantity);
+  timeInput.value = order.time || "";
+  paidInput.checked = Boolean(order.paid);
   noteInput.value = order.note;
 
   const ordered = isOrdered(order);
-  activeStatusEl.textContent = ordered ? "Ordered" : "Not ordered";
+  activeStatusEl.textContent = ordered ? (order.paid ? "Paid" : "Ordered") : "Not ordered";
   activeStatusEl.classList.toggle("done", ordered);
   updateRestaurantActions();
 }
@@ -275,7 +359,10 @@ function renderSummary() {
         <strong>${name}</strong>
         <small>${formatOrderDetails(order)}</small>
       </div>
-      <strong>x${order.quantity}</strong>
+      <div class="summary-meta">
+        <span class="paid-badge ${order.paid ? "done" : ""}">${order.paid ? "Paid" : "Unpaid"}</span>
+        <strong>x${order.quantity}</strong>
+      </div>
     `;
     summaryListEl.appendChild(item);
   });
@@ -295,9 +382,11 @@ function getOrderText() {
     .map(([name, order]) => {
       const drink = order.drink !== "No drink" ? `, ${order.drink}` : "";
       const sauce = order.sauce && order.sauce !== "No sauce" ? `, ${order.sauce}` : "";
+      const time = order.time ? `, time ${order.time}` : "";
+      const paid = order.paid ? ", paid" : ", unpaid";
       const noteText = order.note.trim();
       const note = noteText ? ` (${noteText})` : "";
-      return `${name}: ${order.quantity} x ${order.item}${drink}${sauce}${note}`;
+      return `${name}: ${order.quantity} x ${order.item}${drink}${sauce}${time}${paid}${note}`;
     });
   return lines.length ? lines.join("\n") : "No dinner choices yet.";
 }
@@ -307,11 +396,16 @@ fillSelect(restaurantSelect, restaurants);
 fillSelect(drinkSelect, drinks);
 fillSelect(sauceSelect, sauces);
 
-[itemSelect, restaurantSelect, drinkSelect, sauceSelect, quantityInput, noteInput].forEach((input) => {
+[itemSelect, restaurantSelect, drinkSelect, sauceSelect, quantityInput, timeInput, paidInput, noteInput].forEach((input) => {
   input.addEventListener("input", () => {
     saveActiveOrder();
     render();
   });
+});
+
+paidInput.addEventListener("change", () => {
+  saveActiveOrder();
+  render();
 });
 
 document.getElementById("decreaseQty").addEventListener("click", () => {
@@ -340,7 +434,9 @@ document.getElementById("resetButton").addEventListener("click", () => {
       quantity: 0,
       drink: "No drink",
       sauce: "No sauce",
-      note: ""
+      note: "",
+      time: "",
+      paid: false
     };
   });
   render();

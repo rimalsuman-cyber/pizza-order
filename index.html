@@ -52,9 +52,18 @@
 
       <section class="order-card" aria-live="polite">
         <div class="person-header">
-          <div>
-            <p class="eyebrow">Ordering for</p>
-            <h2 id="activeName">Suman</h2>
+          <div class="person-profile">
+            <img class="person-photo" id="activePhoto" src="" alt="">
+            <div>
+              <p class="eyebrow">Ordering for</p>
+              <div class="name-row">
+                <h2 id="activeName">Suman</h2>
+                <span class="flag-badge" id="activeFlag" aria-label="Country flag">🇳🇵</span>
+              </div>
+              <p class="nationality-line">
+                <span id="activeNationality">Nepal</span>
+              </p>
+            </div>
           </div>
           <span class="pill" id="activeStatus">Not ordered</span>
         </div>
@@ -97,6 +106,21 @@
             <a class="restaurant-button" id="callButton" href="#" hidden>Call</a>
             <a class="restaurant-button" id="smsButton" href="#" hidden>SMS</a>
             <a class="restaurant-button" id="emailButton" href="#" hidden>Email</a>
+          </div>
+        </div>
+
+        <div class="control-grid">
+          <div class="control-block">
+            <label for="timeInput">Delivery/pickup time</label>
+            <input id="timeInput" type="time">
+          </div>
+
+          <div class="control-block">
+            <label for="paidInput">Payment</label>
+            <label class="paid-toggle">
+              <input id="paidInput" type="checkbox">
+              <span>Mark paid</span>
+            </label>
           </div>
         </div>
 
