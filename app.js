@@ -2,12 +2,13 @@ const participants = [
   "Suman",
   "Luca",
   "Celik",
+  "Giuseppe",
   "Barbara",
   "Violca",
   "Cigdem",
   "Severin",
   "Torsten",
-  "Miguel",
+  "Miquel",
   "Umit",
   "Nesrin"
 ];
@@ -22,15 +23,25 @@ const participantProfiles = {
   },
   Luca: { nationality: "Italy", flag: "🇮🇹", flagImage: "https://flagsapi.com/IT/flat/64.png", colors: ["#2f7657", "#c6422f"] },
   Celik: { nationality: "Turkey", flag: "🇹🇷", flagImage: "https://flagsapi.com/TR/flat/64.png", colors: ["#c6422f", "#8f1d1d"] },
+  Giuseppe: { nationality: "Italy", flag: "🇮🇹", flagImage: "https://flagsapi.com/IT/flat/64.png", colors: ["#2f7657", "#c6422f"] },
   Barbara: { nationality: "Italy", flag: "🇮🇹", flagImage: "https://flagsapi.com/IT/flat/64.png", colors: ["#2f7657", "#c6422f"] },
   Violca: { nationality: "Albania", flag: "🇦🇱", flagImage: "https://flagsapi.com/AL/flat/64.png", colors: ["#c6422f", "#2d3134"] },
   Cigdem: { nationality: "Turkey", flag: "🇹🇷", flagImage: "https://flagsapi.com/TR/flat/64.png", colors: ["#c6422f", "#8f1d1d"] },
   Severin: { nationality: "Switzerland", flag: "🇨🇭", flagImage: "https://flagsapi.com/CH/flat/64.png", colors: ["#c6422f", "#ffffff"] },
   Torsten: { nationality: "Germany", flag: "🇩🇪", flagImage: "https://flagsapi.com/DE/flat/64.png", colors: ["#2d3134", "#e5a935"] },
-  Miguel: { nationality: "Serbia", flag: "🇷🇸", flagImage: "https://flagsapi.com/RS/flat/64.png", colors: ["#c6422f", "#2f5fbc"] },
+  Miquel: { nationality: "Albania", flag: "🇦🇱", flagImage: "https://flagsapi.com/AL/flat/64.png", colors: ["#c6422f", "#2f5fbc"] },
   Umit: { nationality: "Turkey", flag: "🇹🇷", flagImage: "https://flagsapi.com/TR/flat/64.png", colors: ["#c6422f", "#8f1d1d"] },
   Nesrin: { nationality: "Turkey", flag: "🇹🇷", flagImage: "https://flagsapi.com/TR/flat/64.png", colors: ["#c6422f", "#8f1d1d"] }
 };
+
+participantProfiles.Luca.photo = "Luca.JPG";
+participantProfiles.Celik.photo = "Celik.JPG";
+participantProfiles.Giuseppe.photo = "Giuseppe.JPG";
+participantProfiles.Barbara.photo = "Barbara.JPG";
+participantProfiles.Violca.photo = "Violca.JPG";
+participantProfiles.Cigdem.photo = "Cigdem.JPG";
+participantProfiles.Severin.photo = "Severin.JPG";
+participantProfiles.Miquel.photo = "Miquel.JPG";
 
 const dinnerItems = [
   "No order",
