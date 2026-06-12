@@ -22,16 +22,16 @@ const participantProfiles = {
     colors: ["#c6422f", "#2f5fbc"]
   },
   Luca: { nationality: "Italy", flag: "🇮🇹", flagImage: "https://flagsapi.com/IT/flat/64.png", colors: ["#2f7657", "#c6422f"] },
-  Celik: { nationality: "Turkey", flag: "🇹🇷", flagImage: "https://flagsapi.com/TR/flat/64.png", colors: ["#c6422f", "#8f1d1d"] },
+  Celik: { nationality: "Türkiye", flag: "🇹🇷", flagImage: "https://flagsapi.com/TR/flat/64.png", colors: ["#c6422f", "#8f1d1d"] },
   Giuseppe: { nationality: "Italy", flag: "🇮🇹", flagImage: "https://flagsapi.com/IT/flat/64.png", colors: ["#2f7657", "#c6422f"] },
   Barbara: { nationality: "Italy", flag: "🇮🇹", flagImage: "https://flagsapi.com/IT/flat/64.png", colors: ["#2f7657", "#c6422f"] },
   Violca: { nationality: "Albania", flag: "🇦🇱", flagImage: "https://flagsapi.com/AL/flat/64.png", colors: ["#c6422f", "#2d3134"] },
-  Cigdem: { nationality: "Turkey", flag: "🇹🇷", flagImage: "https://flagsapi.com/TR/flat/64.png", colors: ["#c6422f", "#8f1d1d"] },
+  Cigdem: { nationality: "Türkiye", flag: "🇹🇷", flagImage: "https://flagsapi.com/TR/flat/64.png", colors: ["#c6422f", "#8f1d1d"] },
   Severin: { nationality: "Switzerland", flag: "🇨🇭", flagImage: "https://flagsapi.com/CH/flat/64.png", colors: ["#c6422f", "#ffffff"] },
   Torsten: { nationality: "Germany", flag: "🇩🇪", flagImage: "https://flagsapi.com/DE/flat/64.png", colors: ["#2d3134", "#e5a935"] },
   Miquel: { nationality: "Albania", flag: "🇦🇱", flagImage: "https://flagsapi.com/AL/flat/64.png", colors: ["#c6422f", "#2f5fbc"] },
-  Umit: { nationality: "Turkey", flag: "🇹🇷", flagImage: "https://flagsapi.com/TR/flat/64.png", colors: ["#c6422f", "#8f1d1d"] },
-  Nesrin: { nationality: "Turkey", flag: "🇹🇷", flagImage: "https://flagsapi.com/TR/flat/64.png", colors: ["#c6422f", "#8f1d1d"] }
+  Umit: { nationality: "Türkiye", flag: "🇹🇷", flagImage: "https://flagsapi.com/TR/flat/64.png", colors: ["#c6422f", "#8f1d1d"] },
+  Nesrin: { nationality: "Türkiye", flag: "🇹🇷", flagImage: "https://flagsapi.com/TR/flat/64.png", colors: ["#c6422f", "#8f1d1d"] }
 };
 
 participantProfiles.Luca.photo = "Luca.JPG";
@@ -55,17 +55,24 @@ const dinnerItems = [
 
 const restaurants = [
   "No restaurant",
-  "Futurefoods Tel.: +41417503737",
-  "Allmend Pizza Kebab Tel.: +41566119944",
-  "PePe FOOD Tel.: +41787051973",
-  "Tom's Diner Restaurant Tel.: +41565257503"
+  "Futurefoods",
+  "Allmend Pizza Kebab",
+  "PePe FOOD",
+  "Tom's Diner Restaurant"
 ];
 
+const restaurantPhones = {
+  Futurefoods: "+41417503737",
+  "Allmend Pizza Kebab": "+41566119944",
+  "PePe FOOD": "+41787051973",
+  "Tom's Diner Restaurant": "+41565257503"
+};
+
 const restaurantEmails = {
-  "Futurefoods Tel.: +41417503737": "Kontact@futurefoods.ch",
-  "Allmend Pizza Kebab Tel.: +41566119944": "Kontact@allmendpizzakebab.ch",
-  "PePe FOOD Tel.: +41787051973": "Kontact@pepefood.ch",
-  "Tom's Diner Restaurant Tel.: +41565257503": "Kontact@tomsdiner.ch"
+  Futurefoods: "Kontact@futurefoods.ch",
+  "Allmend Pizza Kebab": "Kontact@allmendpizzakebab.ch",
+  "PePe FOOD": "Kontact@pepefood.ch",
+  "Tom's Diner Restaurant": "Kontact@tomsdiner.ch"
 };
 
 const drinks = [
@@ -289,8 +296,7 @@ function loadActiveOrder() {
 }
 
 function getRestaurantPhone(restaurant) {
-  const match = restaurant.match(/Tel\.:\s*([+\d\s]+)/);
-  return match ? match[1].replace(/\s/g, "") : "";
+  return restaurantPhones[restaurant] || "";
 }
 
 function updateRestaurantActions() {
