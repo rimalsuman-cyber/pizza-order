@@ -41,6 +41,7 @@ participantProfiles.Barbara.photo = "Barbara.JPG";
 participantProfiles.Violca.photo = "Violca.JPG";
 participantProfiles.Cigdem.photo = "Cigdem.JPG";
 participantProfiles.Severin.photo = "Severin.JPG";
+participantProfiles.Torsten.photo = "Torsten.JPG";
 participantProfiles.Miquel.photo = "Miquel.JPG";
 
 const dinnerItems = [
