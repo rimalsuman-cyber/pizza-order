@@ -104,6 +104,16 @@ const sauces = [
   "Ketchup"
 ];
 
+const weekdays = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday"
+];
+
 const orders = Object.fromEntries(
   participants.map((name) => [
     name,
@@ -114,6 +124,7 @@ const orders = Object.fromEntries(
       drink: "No drink",
       sauce: "No sauce",
       note: "",
+      weekday: "Friday",
       time: "",
       paid: false
     }
@@ -136,6 +147,7 @@ const smsButton = document.getElementById("smsButton");
 const drinkSelect = document.getElementById("drinkSelect");
 const sauceSelect = document.getElementById("sauceSelect");
 const quantityInput = document.getElementById("quantityInput");
+const weekdaySelect = document.getElementById("weekdaySelect");
 const timeInput = document.getElementById("timeInput");
 const paidInput = document.getElementById("paidInput");
 const noteInput = document.getElementById("noteInput");
@@ -206,10 +218,11 @@ function renderActiveProfile() {
 }
 
 function formatOrderDetails(order) {
+  const schedule = [order.weekday, order.time].filter(Boolean).join(" ");
   return [
     order.item,
     order.sauce && order.sauce !== "No sauce" ? order.sauce : "",
-    order.time ? `Time ${order.time}` : "",
+    schedule ? `Time ${schedule}` : "",
     order.note.trim(),
     order.drink !== "No drink" ? order.drink : ""
   ].filter(Boolean).join(" · ");
@@ -285,6 +298,7 @@ function saveActiveOrder() {
     drink: drinkSelect.value,
     sauce: sauceSelect.value,
     note: noteInput.value,
+    weekday: weekdaySelect.value,
     time: timeInput.value,
     paid: paidInput.checked
   };
@@ -299,6 +313,7 @@ function loadActiveOrder() {
   drinkSelect.value = order.drink;
   sauceSelect.value = order.sauce || "No sauce";
   quantityInput.value = String(order.quantity);
+  weekdaySelect.value = order.weekday || "Friday";
   timeInput.value = order.time || "";
   paidInput.checked = Boolean(order.paid);
   noteInput.value = order.note;
@@ -414,7 +429,8 @@ function getOrderText() {
     .map(([name, order]) => {
       const drink = order.drink !== "No drink" ? `, ${order.drink}` : "";
       const sauce = order.sauce && order.sauce !== "No sauce" ? `, ${order.sauce}` : "";
-      const time = order.time ? `, time ${order.time}` : "";
+      const schedule = [order.weekday, order.time].filter(Boolean).join(" ");
+      const time = schedule ? `, time ${schedule}` : "";
       const noteText = order.note.trim();
       const note = noteText ? ` (${noteText})` : "";
       return `${name}: ${order.quantity} x ${order.item}${drink}${sauce}${time}${note}`;
@@ -426,8 +442,9 @@ fillSelect(itemSelect, dinnerItems);
 fillSelect(restaurantSelect, restaurants);
 fillSelect(drinkSelect, drinks);
 fillSelect(sauceSelect, sauces);
+fillSelect(weekdaySelect, weekdays);
 
-[itemSelect, restaurantSelect, drinkSelect, sauceSelect, quantityInput, timeInput, paidInput, noteInput].forEach((input) => {
+[itemSelect, restaurantSelect, drinkSelect, sauceSelect, quantityInput, weekdaySelect, timeInput, paidInput, noteInput].forEach((input) => {
   input.addEventListener("input", () => {
     saveActiveOrder();
     render();
@@ -466,6 +483,7 @@ document.getElementById("resetButton").addEventListener("click", () => {
       drink: "No drink",
       sauce: "No sauce",
       note: "",
+      weekday: "Friday",
       time: "",
       paid: false
     };

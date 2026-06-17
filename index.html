@@ -109,10 +109,13 @@
           </div>
         </div>
 
-        <div class="control-grid">
+        <div class="control-grid schedule-payment-grid">
           <div class="control-block">
-            <label for="timeInput">Delivery/pickup time</label>
-            <input id="timeInput" type="time">
+            <label for="weekdaySelect">Delivery/pickup day and time</label>
+            <div class="delivery-time-fields">
+              <select id="weekdaySelect"></select>
+              <input id="timeInput" type="time">
+            </div>
           </div>
 
           <div class="control-block">
