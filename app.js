@@ -43,6 +43,8 @@ participantProfiles.Cigdem.photo = "Cigdem.JPG";
 participantProfiles.Severin.photo = "Severin.JPG";
 participantProfiles.Torsten.photo = "Torsten.JPG";
 participantProfiles.Miquel.photo = "Miquel.JPG";
+participantProfiles.Umit.photo = "Umit.JPG";
+participantProfiles.Nesrin.photo = "Nesrin.JPG";
 
 const dinnerItems = [
   "No order",
