@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Friday Dinner Order</title>
     <link rel="stylesheet" href="styles.css">
   </head>
@@ -68,12 +68,12 @@
           <span class="pill" id="activeStatus">Not ordered</span>
         </div>
 
-        <div class="control-block">
-          <label for="itemSelect">Dinner item</label>
-          <select id="itemSelect"></select>
-        </div>
+        <div class="control-grid item-quantity-grid">
+          <div class="control-block">
+            <label for="itemSelect">Dinner item</label>
+            <select id="itemSelect"></select>
+          </div>
 
-        <div class="control-grid">
           <div class="control-block">
             <label for="quantityInput">Quantity</label>
             <div class="stepper">
@@ -81,11 +81,6 @@
               <input id="quantityInput" type="number" min="0" max="9" value="0" inputmode="numeric">
               <button type="button" id="increaseQty" aria-label="Increase quantity">+</button>
             </div>
-          </div>
-
-          <div class="control-block">
-            <label for="drinkSelect">Drink</label>
-            <select id="drinkSelect"></select>
           </div>
         </div>
 
@@ -97,6 +92,11 @@
         <div class="control-block">
           <label for="noteInput">Notes</label>
           <textarea id="noteInput" rows="3" placeholder="No onions, extra spicy, separate box..."></textarea>
+        </div>
+
+        <div class="control-block">
+          <label for="drinkSelect">Drink</label>
+          <select id="drinkSelect"></select>
         </div>
 
         <div class="control-block">

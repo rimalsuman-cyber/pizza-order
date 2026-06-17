@@ -43,8 +43,6 @@ participantProfiles.Cigdem.photo = "Cigdem.JPG";
 participantProfiles.Severin.photo = "Severin.JPG";
 participantProfiles.Torsten.photo = "Torsten.JPG";
 participantProfiles.Miquel.photo = "Miquel.JPG";
-participantProfiles.Umit.photo = "Umit.JPG";
-participantProfiles.Nesrin.photo = "Nesrin.JPG";
 
 const dinnerItems = [
   "No order",
@@ -55,6 +53,15 @@ const dinnerItems = [
   "Kebab",
   "Pullet pepito"
 ];
+
+const quickItemClasses = {
+  "Margherita pizza": "quick-item-margherita",
+  "Salami pizza": "quick-item-salami",
+  "Funghi pizza": "quick-item-funghi",
+  "Vegetarian pizza": "quick-item-vegetarian",
+  Kebab: "quick-item-kebab",
+  "Pullet pepito": "quick-item-pullet"
+};
 
 const restaurants = [
   "No restaurant",
@@ -201,10 +208,10 @@ function renderActiveProfile() {
 function formatOrderDetails(order) {
   return [
     order.item,
-    order.drink !== "No drink" ? order.drink : "",
     order.sauce && order.sauce !== "No sauce" ? order.sauce : "",
     order.time ? `Time ${order.time}` : "",
-    order.note.trim()
+    order.note.trim(),
+    order.drink !== "No drink" ? order.drink : ""
   ].filter(Boolean).join(" · ");
 }
 
@@ -253,7 +260,11 @@ function renderQuickItems() {
     const button = document.createElement("button");
     button.type = "button";
     button.textContent = item.replace(" pizza", "");
-    button.className = orders[activeParticipant].item === item ? "selected" : "";
+    button.className = [
+      "quick-item-button",
+      quickItemClasses[item],
+      orders[activeParticipant].item === item ? "selected" : ""
+    ].filter(Boolean).join(" ");
     button.addEventListener("click", () => {
       itemSelect.value = item;
       if (Number(quantityInput.value) === 0) {
@@ -313,9 +324,10 @@ function updateRestaurantActions() {
     smsButton.removeAttribute("href");
     smsButton.removeAttribute("aria-label");
   } else {
+    const body = encodeURIComponent(getEmailBody());
     callButton.href = `tel:${phone}`;
     callButton.setAttribute("aria-label", `Call ${restaurant}`);
-    smsButton.href = `sms:${phone}`;
+    smsButton.href = `sms:${phone}?body=${body}`;
     smsButton.setAttribute("aria-label", `SMS ${restaurant}`);
   }
 
@@ -376,7 +388,7 @@ function renderSummary() {
     item.className = "summary-item";
     item.innerHTML = `
       <div>
-        <strong>${name}</strong>
+        <strong class="summary-name">${name}</strong>
         <small>${formatOrderDetails(order)}</small>
       </div>
       <div class="summary-meta">
@@ -403,10 +415,9 @@ function getOrderText() {
       const drink = order.drink !== "No drink" ? `, ${order.drink}` : "";
       const sauce = order.sauce && order.sauce !== "No sauce" ? `, ${order.sauce}` : "";
       const time = order.time ? `, time ${order.time}` : "";
-      const paid = order.paid ? ", paid" : ", unpaid";
       const noteText = order.note.trim();
       const note = noteText ? ` (${noteText})` : "";
-      return `${name}: ${order.quantity} x ${order.item}${drink}${sauce}${time}${paid}${note}`;
+      return `${name}: ${order.quantity} x ${order.item}${drink}${sauce}${time}${note}`;
     });
   return lines.length ? lines.join("\n") : "No dinner choices yet.";
 }

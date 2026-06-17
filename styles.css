@@ -30,6 +30,7 @@ select,
 input,
 textarea {
   font: inherit;
+  touch-action: manipulation;
 }
 
 .app-shell {
@@ -326,6 +327,15 @@ h2 {
   gap: 12px;
 }
 
+.item-quantity-grid {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.item-quantity-grid .control-block:last-child {
+  justify-self: end;
+  width: 160px;
+}
+
 .control-block {
   margin-top: 16px;
 }
@@ -416,16 +426,46 @@ textarea {
   margin-top: 16px;
 }
 
-.quick-items button {
-  min-height: 42px;
+.quick-item-button {
+  position: relative;
+  overflow: hidden;
+  min-height: 56px;
   border-radius: 8px;
   color: #fff;
-  background: var(--charcoal);
+  background-image:
+    linear-gradient(rgba(20, 24, 27, 0.48), rgba(20, 24, 27, 0.62)),
+    url("assets/quick-items-sprite.png");
+  background-size: 200% 300%;
   font-weight: 700;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
 }
 
-.quick-items button.selected {
-  background: var(--tomato);
+.quick-item-button.selected {
+  box-shadow: inset 0 0 0 3px var(--tomato);
+}
+
+.quick-item-margherita {
+  background-position: 0% 0%;
+}
+
+.quick-item-salami {
+  background-position: 100% 0%;
+}
+
+.quick-item-funghi {
+  background-position: 0% 50%;
+}
+
+.quick-item-vegetarian {
+  background-position: 100% 50%;
+}
+
+.quick-item-kebab {
+  background-position: 0% 100%;
+}
+
+.quick-item-pullet {
+  background-position: 100% 100%;
 }
 
 .summary-panel {
@@ -491,6 +531,14 @@ textarea {
   display: block;
   margin-top: 4px;
   color: var(--muted);
+}
+
+.summary-name {
+  display: inline-block;
+  padding: 3px 7px;
+  border-radius: 6px;
+  color: #fff;
+  background: #c52828;
 }
 
 .summary-meta {
