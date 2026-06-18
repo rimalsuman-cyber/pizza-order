@@ -430,11 +430,9 @@ function getOrderText() {
     .map(([name, order]) => {
       const drink = order.drink !== "No drink" ? `, ${order.drink}` : "";
       const sauce = order.sauce && order.sauce !== "No sauce" ? `, ${order.sauce}` : "";
-      const schedule = [order.weekday, order.time].filter(Boolean).join(" ");
-      const time = schedule ? `, time ${schedule}` : "";
       const noteText = order.note.trim();
       const note = noteText ? ` (${noteText})` : "";
-      return `${name}: ${order.quantity} x ${order.item}${drink}${sauce}${time}${note}`;
+      return `${name}: ${order.quantity} x ${order.item}${drink}${sauce}${note}`;
     });
   return lines.length ? lines.join("\n") : "No dinner choices yet.";
 }
