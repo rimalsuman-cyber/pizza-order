@@ -615,33 +615,59 @@ textarea {
 
 @media (max-width: 520px) {
   .schedule-payment-grid {
-    grid-template-columns: minmax(0, 1fr) 72px;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.86fr) minmax(0, 0.64fr);
     gap: 6px;
     align-items: end;
   }
 
+  .schedule-payment-grid .control-block {
+    margin-top: 0;
+    min-width: 0;
+  }
+
+  .schedule-payment-grid .control-block:first-child {
+    display: contents;
+  }
+
   .schedule-payment-grid .control-block:first-child label {
+    grid-column: 1 / -1;
     font-size: 0.76rem;
     line-height: 1.25;
   }
 
   .delivery-time-fields {
-    grid-template-columns: minmax(72px, 1fr) minmax(66px, 0.78fr);
-    gap: 6px;
+    display: contents;
   }
 
   .schedule-payment-grid input,
   .delivery-time-fields select {
     height: 34px;
-    padding: 0 5px;
-    font-size: 0.78rem;
+    padding: 0 4px;
+    font-size: 0.76rem;
+  }
+
+  .delivery-time-fields select {
+    grid-column: 1;
+  }
+
+  .delivery-time-fields input {
+    grid-column: 2;
+    min-width: 0;
+  }
+
+  .schedule-payment-grid .control-block:last-child {
+    grid-column: 3;
+  }
+
+  .schedule-payment-grid .control-block:last-child > label:first-child {
+    display: none;
   }
 
   .schedule-payment-grid .paid-toggle {
-    width: 72px;
+    width: 100%;
     min-height: 34px;
-    gap: 4px;
-    padding: 0 5px;
+    gap: 3px;
+    padding: 0 4px;
   }
 
   .schedule-payment-grid .paid-toggle input {
@@ -661,18 +687,12 @@ textarea {
   }
 
   .schedule-payment-grid {
-    grid-template-columns: minmax(0, 1fr) 68px;
-    gap: 5px;
-  }
-
-  .delivery-time-fields {
-    grid-template-columns: minmax(66px, 1fr) minmax(60px, 0.76fr);
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.82fr) minmax(0, 0.58fr);
     gap: 5px;
   }
 
   .schedule-payment-grid .paid-toggle {
     justify-self: end;
-    width: 68px;
   }
 
   .top-panel,
