@@ -373,9 +373,7 @@ function updateRestaurantActions() {
 
 function getEmailBody() {
   return [
-    "Hallo grüezi,",
-    "",
-    "Bitte machen Sie alles parat bis 17:55 dass ich komme zu holen.",
+    "Grüezzi. Ich möchte gerne die folgende Bestellung aufgeben. Könnten Sie diese bitte bis 17:50 Uhr bereitstellen? Ich komme sie um diese Zeit abholen. Vielen Dank.",
     "",
     getOrderText(),
     "",
