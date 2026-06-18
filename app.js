@@ -132,7 +132,7 @@ const orders = Object.fromEntries(
       sauce: "No sauce",
       note: "",
       weekday: "Friday",
-      time: "",
+      time: "17:50",
       paid: false
     }
   ])
@@ -493,7 +493,7 @@ document.getElementById("resetButton").addEventListener("click", () => {
       sauce: "No sauce",
       note: "",
       weekday: "Friday",
-      time: "",
+      time: "17:50",
       paid: false
     };
   });
