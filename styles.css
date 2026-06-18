@@ -430,6 +430,8 @@ textarea {
 }
 
 .delivery-time-fields select {
+  appearance: none;
+  -webkit-appearance: none;
   height: 40px;
   padding: 0 9px;
 }
