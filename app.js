@@ -429,6 +429,10 @@ function render() {
   renderSummary();
 }
 
+function underlineText(text) {
+  return [...text].map((letter) => `${letter}\u0332`).join("");
+}
+
 function getOrderText() {
   const lines = participants
     .map((name) => [name, orders[name]])
@@ -438,7 +442,7 @@ function getOrderText() {
       const sauce = order.sauce && order.sauce !== "No sauce" ? `, ${order.sauce}` : "";
       const noteText = order.note.trim();
       const note = noteText ? ` (${noteText})` : "";
-      return `🔴➡️ ${index + 1}. ${name}: ${order.quantity} x ${order.item}${sauce}${note}${drink}`;
+      return `➡️ ${index + 1}. ${underlineText(name)}: ${order.quantity} x ${order.item}${sauce}${note}${drink}`;
     });
   return lines.length ? lines.join("\n") : "No dinner choices yet.";
 }
