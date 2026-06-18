@@ -433,12 +433,12 @@ function getOrderText() {
   const lines = participants
     .map((name) => [name, orders[name]])
     .filter(([, order]) => isOrdered(order))
-    .map(([name, order]) => {
+    .map(([name, order], index) => {
       const drink = order.drink !== "No drink" ? `, ${order.drink}` : "";
       const sauce = order.sauce && order.sauce !== "No sauce" ? `, ${order.sauce}` : "";
       const noteText = order.note.trim();
       const note = noteText ? ` (${noteText})` : "";
-      return `${name}: ${order.quantity} x ${order.item}${sauce}${note}${drink}`;
+      return `${index + 1}. ${name}: ${order.quantity} x ${order.item}${sauce}${note}${drink}`;
     });
   return lines.length ? lines.join("\n") : "No dinner choices yet.";
 }
