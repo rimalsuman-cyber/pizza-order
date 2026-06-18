@@ -73,14 +73,16 @@ const restaurants = [
   "Futurefoods",
   "Allmend Pizza Kebab",
   "PePe FOOD",
-  "Tom's Diner Restaurant"
+  "Tom's Diner Restaurant",
+  "Restaurant Bären, Wohlen"
 ];
 
 const restaurantPhones = {
   Futurefoods: "+41417503737",
   "Allmend Pizza Kebab": "+41566119944",
   "PePe FOOD": "+41787051973",
-  "Tom's Diner Restaurant": "+41565257503"
+  "Tom's Diner Restaurant": "+41565257503",
+  "Restaurant Bären, Wohlen": "0763443004"
 };
 
 const restaurantEmails = {
