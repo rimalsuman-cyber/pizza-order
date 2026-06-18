@@ -49,18 +49,22 @@ const dinnerItems = [
   "No order",
   "Margherita pizza",
   "Salami pizza",
+  "Pizza con Prosciutto",
   "Funghi pizza",
   "Vegetarian pizza",
   "Kebab",
+  "Focaccia",
   "Pullet pepito"
 ];
 
 const quickItemClasses = {
   "Margherita pizza": "quick-item-margherita",
   "Salami pizza": "quick-item-salami",
+  "Pizza con Prosciutto": "quick-item-salami",
   "Funghi pizza": "quick-item-funghi",
   "Vegetarian pizza": "quick-item-vegetarian",
   Kebab: "quick-item-kebab",
+  Focaccia: "quick-item-margherita",
   "Pullet pepito": "quick-item-pullet"
 };
 
